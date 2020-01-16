@@ -1,0 +1,178 @@
+
+********************main function file***************************************
+#include"common.h"
+using namespace std;
+
+class Employee{
+	private:
+		int id;
+		string name;
+		string address;
+		public:
+		void setDetails(int id,string name,string address){
+			this->id=id;
+			this->name=name;
+			this->address=address;
+		} 
+		void setUpdateDetails(string name,string address){
+				this->name=name;
+			this->address=address;
+		}
+		int getid(){
+			return id;
+		}
+		string getname(){
+			return name;
+		}
+		string getaddress(){
+			return address;
+		}
+};
+Employee* allemployees;
+int size;
+
+void Initialize(){
+size=getInteger("enter the size of employee array");
+allemployees=new Employee[size];
+}
+string getmenu(){
+	string menu="EMPLOYEE\n";
+	menu+="enter 1 to add\n";
+	menu+="enter 2 to update\n";
+	menu+="enter 3 to delete\n";
+	menu+="enter 4 to show\n";
+	
+
+	return menu;
+}
+		void displayEmploye(){
+		for(int i=0;i<size;i++){
+		if(allemployees[i].getname()!="")
+		{
+			string msg="The Details: \nThe Name is "+allemployees[i].getname()+" from "+allemployees[i].getaddress()+"\n";
+		//	cout<<allemployees[i].getid();
+			cout<<msg<<endl;
+		}
+		}
+		}
+		void updateEmploye(int id){
+			for(int i=0;i<size;i++){
+				if(allemployees[i].getid()==id)
+				{
+				string name=getString("enter the name\n");
+				string address=getString("enter the address\n");
+				allemployees[i].setDetails(id,name,address);
+			}
+				return;
+			}
+		}
+		void deleteEmploye(int id){
+			for(int i=0;i<size;i++){
+				if(allemployees[i].getid()==id){
+					allemployees[i].setDetails(0,"","");
+					return;
+				}
+			}
+		}
+				
+		void adddNewEmploye(Employee emp){
+		for(int i=0;i<size;i++)
+		{
+		if(allemployees[i].getname()==""){
+			allemployees[i].setDetails(emp.getid(),emp.getname(),emp.getaddress());
+			return; 
+		}
+		}
+	
+		}
+		void updateone(){
+			int empid=getInteger("Enter the id\n");
+			updateEmploye(empid);
+			print("Employe is updated\n");
+		}
+		void deleteone(){
+			int empid=getInteger("Enter the Id \n");
+			deleteEmploye(empid);
+			print("Employe is deleted from database\n");
+		
+		}
+		void createEmploye(){
+		Employee emp;
+		int id=getInteger("\nenter the id\t");
+		string name=getString("enter the name\t");
+		string address=getString("enter the address\t");
+		emp.setDetails(id,name,address);
+		adddNewEmploye(emp);
+		print("\nemployee added\n");
+	
+		}		
+
+		bool processMenu(int choice){
+		switch(choice){
+		case 1: createEmploye();		
+			return true;
+		case 2:
+			updateone();
+			return true;
+		case 3:
+			deleteone();
+			return true;
+		case 4:
+			displayEmploye();
+			return true;
+		default:
+			return false;
+		}
+		}
+
+	
+int main() {
+	Initialize();
+ 	string menu=getmenu();
+
+ 
+ bool processing=true;
+ do{
+ 	int choice=getInteger(menu);
+ 	processing=processMenu(choice);
+ }while(processing);
+ 
+
+}
+
+********************************common.h*************************************
+#pragma once
+#include<iostream>
+using namespace std;
+
+void print(char* message){
+	cout<<message<<endl;
+}
+
+double getValue(char* message){
+	print(message);
+	double value{};
+	cin >> value;
+	return value;
+}
+int getInteger(string question){
+	cout<<question<<endl;
+	int res{0};
+	cin>>res;
+	return res;
+}
+
+string getString(string question){
+	cout<<question<<endl;
+	string answer;
+	cin>>answer;
+	return answer;
+}
+
+
+char getChar(char* message){
+	print(message);
+	char op;
+	cin >> op;
+	return op;
+}
